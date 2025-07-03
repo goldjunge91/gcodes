@@ -296,6 +296,9 @@ M400
 {if curr_bed_type=="Textured PEI Plate"}
 G29.1 Z{-0.04} ; for Textured PEI Plate
 {endif}
+{if curr_bed_type=="Cool Plate"}
+G29.1 Z{-0.06} ; for Cool Plate
+{endif}
 
 ;===== draw extrinsic para cali paint =================
 M1002 judge_flag extrude_cali_flag
@@ -661,5 +664,5 @@ G1 X18.0 Y2.5 Z0.8 F18000.0;Move to start position
 G1 E{retraction_length[initial_no_support_extruder]} F1800
 M109 S{nozzle_temperature_initial_layer[initial_no_support_extruder]}
 G1 Z0.2
-G0 X239 E15 F{outer_wall_volumetric_speed/(0.3*0.5)    * 60}
-G0 Y12 E0.7 F{outer_wall_volumetric_speed/(0.3*0.5)/4* 60}
+G0 X239 E15 F{outer_wall_volumetric_speed/(0.3*0.5)*60}
+G0 Y12 E0.7 F{outer_wall_volumetric_speed/(0.3*0.5)/4*60}
