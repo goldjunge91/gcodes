@@ -59,11 +59,11 @@ const CAT_COLORS = {
   Slicer: "#6b7280",
 };
 
-function getPreview(template) {
+function getPreview(template: string): string {
   let preview = template;
   // Handle {if ...}{...}{else}{...}{endif} - simple mock
-  preview = preview.replace(/\{if\s+plate_name!=""\}(.*?)\{else\}(.*?)\{endif\}/gs, (_, a, b) => b);
-  preview = preview.replace(/\{if\s+.*?\}(.*?)\{else\}(.*?)\{endif\}/gs, (_, a, b) => a); // General mock
+  preview = preview.replace(/\{if\s+plate_name!=""\}(.*?)\{else\}(.*?)\{endif\}/gs, (_: string, a: string, b: string) => b);
+  preview = preview.replace(/\{if\s+.*?\}(.*?)\{else\}(.*?)\{endif\}/gs, (_: string, a: string, b: string) => a); // General mock
   
   // Replace variables
   VARIABLES.forEach(v => {
@@ -83,9 +83,9 @@ export default function App() {
   const [ifOp, setIfOp] = useState('!=""');
   const [ifA, setIfA] = useState("");
   const [ifB, setIfB] = useState("");
-  const textareaRef = useRef(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const insertAt = (text) => {
+  const insertAt = (text: string) => {
     const el = textareaRef.current;
     if (!el) return;
     const start = el.selectionStart;
@@ -100,7 +100,7 @@ export default function App() {
     }, 0);
   };
 
-  const insertVariable = (key) => insertAt(`{${key}}`);
+  const insertVariable = (key: string) => insertAt(`{${key}}`);
 
   const insertIf = () => {
     const ifStr = `{if ${ifVar}${ifOp}}${ifA || `{${ifVar}}`}{else}${ifB || `{input_filename_base}`}{endif}`;
@@ -170,7 +170,7 @@ export default function App() {
               <textarea
                 ref={textareaRef}
                 value={template}
-                onChange={(e) => setTemplate(e.target.value)}
+                onChange={(e) => setTemplate((e.target as HTMLTextAreaElement).value)}
                 className="w-full min-h-[120px] bg-[#121216] border border-white/10 rounded-xl p-4 text-sm font-mono leading-relaxed focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500/50 transition-all outline-none"
                 placeholder="Gib dein Template hier ein..."
               />
@@ -270,7 +270,7 @@ export default function App() {
                 <label className="text-[10px] font-bold uppercase text-slate-500 mb-1.5 block">Variable prüfen</label>
                 <select 
                   value={ifVar} 
-                  onChange={e => setIfVar(e.target.value)}
+                  onChange={e => setIfVar((e.target as HTMLSelectElement).value)}
                   className="w-full bg-black/40 border border-white/10 rounded-lg p-2 text-xs outline-none focus:border-purple-500/50 appearance-none"
                 >
                   {VARIABLES.map(v => <option key={v.key} value={v.key}>{v.key}</option>)}
@@ -281,7 +281,7 @@ export default function App() {
                 <label className="text-[10px] font-bold uppercase text-slate-500 mb-1.5 block">Bedingung</label>
                 <select 
                   value={ifOp} 
-                  onChange={e => setIfOp(e.target.value)}
+                  onChange={e => setIfOp((e.target as HTMLSelectElement).value)}
                   className="w-full bg-black/40 border border-white/10 rounded-lg p-2 text-xs outline-none focus:border-purple-500/50 appearance-none"
                 >
                   <option value='!=""'>Nicht leer (!="")</option>
@@ -296,7 +296,7 @@ export default function App() {
                   <label className="text-[10px] font-bold uppercase text-slate-500 mb-1.5 block">Falls wahr</label>
                   <input 
                     value={ifA} 
-                    onChange={e => setIfA(e.target.value)}
+                    onChange={e => setIfA((e.target as HTMLInputElement).value)}
                     placeholder={`{${ifVar}}`}
                     className="w-full bg-black/40 border border-white/10 rounded-lg p-2 text-xs outline-none focus:border-purple-500/50"
                   />
@@ -305,7 +305,7 @@ export default function App() {
                   <label className="text-[10px] font-bold uppercase text-slate-500 mb-1.5 block">Sonst</label>
                   <input 
                     value={ifB} 
-                    onChange={e => setIfB(e.target.value)}
+                    onChange={e => setIfB((e.target as HTMLInputElement).value)}
                     placeholder="basis"
                     className="w-full bg-black/40 border border-white/10 rounded-lg p-2 text-xs outline-none focus:border-purple-500/50"
                   />
