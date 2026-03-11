@@ -40,7 +40,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './filename-builder/dist'
+          path: 'filename-builder/dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
